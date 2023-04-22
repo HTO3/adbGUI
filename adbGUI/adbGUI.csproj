@@ -194,7 +194,6 @@
     <Compile Include="Forms\SpoofMac.Designer.cs">
       <DependentUpon>SpoofMac.cs</DependentUpon>
     </Compile>
-    <Compile Include="Methods\Dependencies.cs" />
     <Compile Include="Methods\CLI.cs" />
     <Compile Include="Forms\ExtForm.cs">
       <SubType>Form</SubType>

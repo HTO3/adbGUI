@@ -12,8 +12,9 @@ namespace adbGUI.Methods
 	public static class CLI
 	{
 		private static readonly int defaultCodePage = CultureInfo.CurrentCulture.TextInfo.OEMCodePage;
+		internal const String DEFAULT_ANDROID_SDK_FOLDER = @"C:\Program Files (x86)\Android\android-sdk\platform-tools";
 
-		static CLI()
+        static CLI()
 		{
 			Commandline = new Process();
 
@@ -27,8 +28,9 @@ namespace adbGUI.Methods
 				RedirectStandardError = true,
 				RedirectStandardInput = true,
 				StandardOutputEncoding = Encoding.GetEncoding(defaultCodePage),
-				StandardErrorEncoding = Encoding.GetEncoding(defaultCodePage)
-			};
+				StandardErrorEncoding = Encoding.GetEncoding(defaultCodePage),
+				WorkingDirectory = DEFAULT_ANDROID_SDK_FOLDER
+            };
 
 			Commandline.EnableRaisingEvents = true;
 

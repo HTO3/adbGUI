@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -105,14 +106,12 @@ namespace adbGUI.Forms
 		{
 			if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
 			{
-
 				if ((!cbx_customCommand.Focused || String.IsNullOrWhiteSpace(cbx_customCommand.SelectedText)) && String.IsNullOrWhiteSpace(rtb_console.SelectedText))
 				{
 					Debug.WriteLine("Keypress detected: CTRL + C");
 					CLI.KillChildProcessesAsync();
 					e.Handled = e.SuppressKeyPress = true;
 				}
-
 			}
 			else if (e.KeyCode == Keys.Escape)
 			{
@@ -123,8 +122,14 @@ namespace adbGUI.Forms
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
-			// Begin and cancel so the RichTextBox will stay clean. Otherwise it will start in line 2.
-			CLI.Commandline.BeginOutputReadLine();
+			if (!Directory.Exists(CLI.DEFAULT_ANDROID_SDK_FOLDER))
+			{
+				MessageBox.Show($"The AndroidSDK was not found at '{CLI.DEFAULT_ANDROID_SDK_FOLDER}'. By Visual Studio Installer, make sure that the AndroidSDK is installed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				Application.Exit();
+			}
+
+            // Begin and cancel so the RichTextBox will stay clean. Otherwise it will start in line 2.
+            CLI.Commandline.BeginOutputReadLine();
 			CLI.Commandline.CancelOutputRead();
 
 			Thread.Sleep(50);
@@ -154,6 +159,7 @@ namespace adbGUI.Forms
 			//Select custom command control
 			cbx_customCommand.Select();
 		}
+
 		private void Rtb_console_Resize(object sender, EventArgs e)
 		{
 			rtb_console.ScrollToCaret();
